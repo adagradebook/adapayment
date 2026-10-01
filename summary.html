@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Summary</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Open Sans",Arial,sans-serif;background:#f5f5f5;color:#222;font-size:14px}
+  .topbar{height:44px;background:#2f5f7c;border-bottom:3px solid #b8465c;display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 16px;color:#fff}
+  .topbar .left{display:flex;align-items:center;gap:16px}
+  .logo{font-family:Georgia,serif;font-size:20px;border:1px solid #fff;border-radius:50%;padding:2px 8px}
+  .topbar .right{display:flex;align-items:center;gap:14px;font-size:13px}
+  .avatar{width:20px;height:20px;border-radius:50%;background:#fff}
+  .crumbs{background:#fff;height:40px;display:flex;align-items:center;padding:0 19px;font-size:16px;color:#2f5f7c;gap:12px}
+  .crumbs a{color:#2f5f7c}
+  .crumbs .dot{width:5px;height:5px;background:#999;border-radius:50%}
+  .card{background:#fff;max-width:1506px;margin:14px auto 30px;border-top:6px solid #b8465c;box-shadow:0 1px 4px rgba(0,0,0,.15);padding:0 26px 26px}
+  .head{display:flex;justify-content:space-between;align-items:center;padding-top:36px}
+  h1{font-weight:400;font-size:22px;margin:16px 0 0}
+  .actions{display:flex;align-items:center;gap:18px}
+  .btn-icon,.btn-holds{background:#eee;border:0;border-radius:4px;height:32px;cursor:pointer;color:#444;position:relative}
+  .btn-icon{width:33px}
+  .btn-holds{padding:0 12px;font-size:14px}
+  .badge{position:absolute;top:-7px;right:-4px;background:#d00;color:#fff;font-size:8px;width:11px;height:11px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .btn-pay{background:#2f5f7c;color:#fff;border:0;border-radius:16px;height:32px;padding:0 36px;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+  .selects{display:flex;gap:22px;margin:22px 0 18px 0}
+  select{height:35px;border:1px solid #aaa;border-radius:3px;padding:0 8px;font-size:14px;background:#fff;color:#222;width:238px}
+  select.term{width:238px}
+  .info{border-top:1px solid #b8465c;background:#e8f3fc;color:#1a6eb5;font-size:12.5px;padding:19px 26px;display:flex;align-items:center;gap:14px;margin:0}
+  .info i{width:17px;height:17px;border:1.5px solid #1a6eb5;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-weight:700;font-size:11px}
+  .row{display:flex;justify-content:space-between;font-size:14px;padding:8px 0 0}
+  .row .lbl small{font-size:11px}
+  .row .amt{font-weight:600;font-size:14px}
+  .help{display:inline-block;width:11px;height:11px;border:1px solid #aaa;border-radius:50%;font-size:8px;text-align:center;line-height:10px;color:#aaa;margin-left:4px}
+  .term-head{display:flex;justify-content:space-between;align-items:center;padding:0 189px 0 13px;margin-top:52px;height:52px}
+  .term-head .name{font-size:15px}
+  .term-head .bal{text-align:center}
+  .term-head .bal b{font-weight:400;font-size:14px}
+  .term-head .bal small{display:block;font-size:9px;color:#444}
+  hr.dark{border:0;border-top:1px solid #555;margin:14px 0 0}
+  .tools{display:flex;justify-content:flex-end;gap:5px;margin:12px 0 11px}
+  .tools button,.tools .search{height:29px;border:1px solid #aaa;border-radius:3px;background:#fff;font-size:11px;color:#444;padding:0 8px}
+  .tools .search{display:flex;align-items:center;width:163px;justify-content:space-between;color:#777}
+  table{width:100%;border-collapse:collapse}
+  th{font-size:11px;font-weight:700;text-align:left;padding:0 10px;height:40px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;cursor:pointer;position:relative;user-select:none}
+  th+th{border-left:1px solid #ddd}
+  th::after{content:"\21C5";position:absolute;right:8px;font-size:11px;color:#666;font-weight:400}
+  td{font-size:11px;color:#555;height:38px;padding:0 10px;border-bottom:1px solid #ccc}
+  td:first-child{font-size:13px;padding-left:12px}
+  td.num{text-align:right;padding-right:10px}
+  tbody tr:nth-child(even){background:#f0f0f0}
+  tr.total td{background:#eee;font-weight:700;height:47px;border-bottom:0;border-top:1px solid #ccc;color:#333}
+  .tfoot-line{border-top:2px solid #999;margin-top:0}
+  .bottom{margin-top:18px}
+  @media(max-width:800px){.card{padding:0 12px 20px}.head{flex-direction:column;align-items:flex-start;gap:12px}.term-head{padding-right:0}table{display:block;overflow-x:auto}.selects{flex-direction:column;gap:10px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="left"><span>&#9638;</span><span class="logo">ADA</span></div>
+  <div class="right"><span>&#9881;</span><span class="avatar"></span><span>Turan Aslanli.</span></div>
+</div>
+
+<div class="crumbs">
+  <a href="#">Student Dashboard</a><span class="dot"></span>
+  <a href="#">Account Summary</a><span class="dot"></span>
+  <span>View By Term</span>
+</div>
+
+<div class="card">
+  <div class="head">
+    <h1>Account Summary</h1>
+    <div class="actions">
+      <button class="btn-icon" title="Print" onclick="window.print()">&#128424;</button>
+      <a class="btn-pay" href="https://online.ada.edu.az/payment/">Pay Now</a>
+    </div>
+  </div>
+
+  <div class="selects">
+    <select><option>View By Term</option><option>View By Period</option></select>
+    <select class="term"><option>Fall 2026</option></select>
+  </div>
+
+  <!--<div class="info"><i>i</i> Anticipated third party contract payments, financial aid payments, and memo items are NOT included in this summary.</div> -->
+
+  <div class="row"><span class="lbl">Current Amount Due <small>as of <span id="d1"></span></small><span class="help">?</span></span><span class="amt">AZN 2,239.48</span></div>
+  <div class="row" style="padding-top:16px"><span class="lbl">Account Balance<span class="help">?</span></span><span class="amt">AZN 2,239.48</span></div>
+
+  <div class="term-head">
+    <span class="name">Fall 2026</span>
+    <div class="bal"><b>AZN 0.00</b><small>Term Balance</small></div>
+  </div>
+  <hr class="dark">
+
+  <div class="tools">
+    <button>&#9707; Show/Hide Column &#9662;</button>
+    <div class="search"><input id="q" placeholder="Search" style="border:0;outline:0;width:110px;font-size:11px"><span>&#128269;</span></div>
+  </div>
+
+  <table id="tbl">
+    <thead>
+      <tr><th>Detail Code</th><th>Description</th><th>Charge</th><th>Payment</th><th>Balance</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>FSTU</td><td>Student Fee</td><td class="num">AZN 375.00</td><td class="num"></td><td class="num">AZN 375.00</td></tr>
+      <tr><td>TBIT</td><td>Tuition SITE</td><td class="num">AZN 2,625.00</td><td class="num"></td><td class="num">AZN 2625.00</td></tr>
+      <tr><td>EAD2</td><td>SITE Scholarship Exemption 100%</td><td class="num"></td><td class="num">AZN 2,625.00</td><td class="num">AZN 0.00</td></tr>
+      <tr><td>WTRP</td><td>Web Payments</td><td class="num"></td><td class="num">AZN 0.00</td><td class="num">AZN 375.00</td></tr>
+    </tbody>
+    <tfoot>
+      <tr class="total"><td></td><td>Total</td><td class="num">AZN 3,000.00</td><td class="num">AZN 2625.00</td><td class="num">AZN 375.00</td></tr>
+    </tfoot>
+  </table>
+  <div class="tfoot-line"></div>
+
+  <div class="bottom">
+    <div class="row"><span class="lbl">Current Amount Due <small>as of <span id="d2"></span></small><span class="help">?</span></span><span class="amt">AZN 375.00</span></div>
+    <div class="row" style="padding-top:16px"><span class="lbl">Account Balance<span class="help">?</span></span><span class="amt">AZN 375.00</span></div>
+  </div>
+</div>
+
+<script>
+  // Today's date in MM/DD/YYYY
+  const t=new Date(), p=n=>String(n).padStart(2,'0');
+  const today=`${p(t.getMonth()+1)}/${p(t.getDate())}/${t.getFullYear()}`;
+  document.getElementById('d1').textContent=today;
+  document.getElementById('d2').textContent=today;
+
+  // Search filter
+  document.getElementById('q').addEventListener('input',e=>{
+    const v=e.target.value.toLowerCase();
+    document.querySelectorAll('#tbl tbody tr').forEach(r=>{
+      r.style.display=r.textContent.toLowerCase().includes(v)?'':'none';
+    });
+  });
+
+  // Column sorting
+  document.querySelectorAll('#tbl th').forEach((th,i)=>{
+    let asc=true;
+    th.addEventListener('click',()=>{
+      const tb=document.querySelector('#tbl tbody');
+      const rows=[...tb.rows];
+      const val=r=>{const s=r.cells[i].textContent.replace(/[^\d.\-]/g,'');return i>=2&&s!==''?parseFloat(s):r.cells[i].textContent};
+      rows.sort((a,b)=>{const x=val(a),y=val(b);return (x>y?1:x<y?-1:0)*(asc?1:-1)});
+      asc=!asc;
+      rows.forEach(r=>tb.appendChild(r));
+    });
+  });
+</script>
+</body>
+</html>
